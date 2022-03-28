@@ -1,5 +1,6 @@
 <template>
     <div id="sidebar">
+        <avatar ></avatar>
         <div class="icons">
             <router-link to="/notebooks" title="笔记">
                 <i class="iconfont icon-note"></i>
@@ -18,13 +19,15 @@
 </template>
 
 <script>
+import Avatar from '@/components/Avatar'
 
 export default{
   data(){
       return {
 
       }
-  }
+  },
+  components:{Avatar}
 }
 </script>
 
