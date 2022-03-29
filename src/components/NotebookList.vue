@@ -7,12 +7,13 @@
       <div class="layout">
         <h3>笔记本列表</h3>
         <div class="book-list">
-          <router-link v-for="list in booksList" :key="list.id" to="/note/1" class="notebook">
+          <router-link v-for="list in booksList" 
+          :key="list.id" to="/note/1" class="notebook">
             <div>
               <span class="iconfont icon-notebook"></span>
               <span>{{list.title}}</span>
-              <span class="action" @click="onEdit">编辑</span>
-              <span class="action" @click="onDelete">删除</span>
+              <span class="action" @click.stop.prevent="onEdit(list)">编辑</span>
+              <span class="action" @click.stop.prevent="onDelete(list)">删除</span>
               <span class="date">时间</span>
             </div>
           </router-link>
@@ -46,13 +47,44 @@ export default{
   },
   methods:{
     onCreate(){
-      console.log(1)
+      let title =  window.prompt()
+      if(title===null){
+        return;
+      }else if(title.trim()===''){
+        alert('不能为空')
+        return;
+      }
+      Notebooks.addNotebooks({title:title}).then(res=>{
+        console.log(res);
+        alert(res.msg);
+        this.booksList.unshift(res.data)
+      })
     },
-    onEdit(){
-      console.log(2)
+    onEdit(notebook){
+      let title =  window.prompt('修改',notebook.title)
+      console.log(title)
+      if(title===null){
+        return;
+      }else if(title.trim()===''){
+        alert('不能为空')
+        return;
+      }
+      Notebooks.updateNotebooks(notebook.id,{title:title}).then(res=>{
+        console.log(res);
+        alert(res.msg);
+        notebook.title = title;
+        //优化 修改后笔记顶到最上面
+      })
+      console.log(notebook)
     },
-    onDelete(){
-      console.log(3)
+    onDelete(notebook){
+      let isConfirm =  window.confirm('确定删除嘛？')
+      if(!isConfirm){return;}
+      Notebooks.deleteNotebooks(notebook.id).then(res=>{
+        console.log(res),
+        alert(res.msg);
+        this.booksList.splice(this.booksList.indexOf(notebook),1)
+      })
     }
   }
 }
