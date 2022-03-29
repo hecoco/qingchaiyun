@@ -31,31 +31,32 @@ export default{
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 #sidebar{
     width: 56px;
     position: relative;
     text-align: center;
     background: #2c333c;
+    .icons{
+        margin-top: 15px;
+        a{
+            padding: 6px 0;
+            display: block;
+        }
+        .router-link-active{
+            background-color: #5e6266;
+        }
+    }
+    .logout{
+        position: absolute;
+        bottom: 20px;
+        width: 100%;
+        text-align: center;
+        .iconfont{
+            color: #fff;
+        }
+    }
 }
-.icons{
-    margin-top: 15px;
-}
-.icons a{
-    padding: 6px 0;
-    display: block;
-}
-/* 选中变色 */
-.icons .router-link-active{
-    background-color: #5e6266;
-}
-.logout{
-    position: absolute;
-    bottom: 20px;
-    width: 100%;
-    text-align: center;
-}
-.iconfont{
-    color: #fff;
-}
+
+
 </style>

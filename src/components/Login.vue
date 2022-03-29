@@ -1,20 +1,19 @@
 <template>
     <div id="login">
-        <div>
+        <div class="title">
             <span v-if="isShowLogin">登录</span>
             <span v-if="isShowRegister">注册</span>
         </div>
-        <div v-show="isShowLogin">
+        <div v-show="isShowLogin" class="login">
             <input type="text" v-model="login.username" placeholder="用户名"/>
             <input type="password" v-model="login.password" placeholder="密码" />
             <p v-bind:class="{error: login.isError}">{{login.notice}}</p>
             <div class="button" @click="onLogin">登录</div>
             <div @click="showRegister">注册账号</div>
         </div>
-        <div v-show="isShowRegister">
-            <input type="text" v-model="register.username" placeholder="用户名"  />
+        <div v-show="isShowRegister" class="register">
+            <input type="text" v-model="register.username" placeholder="用户名" />
             <input type="password" v-model="register.password" placeholder="密码" />
-            <input type="password" v-model="register.confirmPassword" placeholder="确认密码" />
             <p v-bind:class="{error: register.isError}">{{register.notice}}</p>
             <div class="button" @click="onRegister">注册</div>
             <div @click="showRegister">登录账号</div>
@@ -23,6 +22,7 @@
 </template>
 
 <script>
+import request from '@/helpers/request'
 
 export default{
   data(){
@@ -38,10 +38,10 @@ export default{
         register:{
             username:'',
             password:'',
-            confirmPassword:'',
             notice:'',
             isError:false
         },
+        isOnBlur:false
       }
   },
   methods:{
@@ -64,12 +64,22 @@ export default{
         }
         this.login.isError=false;
         this.login.notice='';
+        request(
+            '/auth/login',
+            'POST',
+            {
+                username:this.login.username,
+                password:this.login.password
+            })
+        .then(data=>{
+            console.log(data)
+        })
         return;
       },
       //验证信息
       onRegister(){
         console.log(1)
-        if(this.register.username.trim()==="" || this.register.password.trim() === "" || this.register.confirmPassword.trim() === ""){
+        if(this.register.username.trim()==="" || this.register.password.trim() === ""){
               this.register.notice="用户名或密码为空";
               this.register.isError=true;
               return;
@@ -84,18 +94,18 @@ export default{
             this.register.isError=true;
             return;
         }
-        if(!/^.{6,16}$/.test(this.register.confirmPassword)){
-            this.register.notice="确认密码长度为6~16个字符";
-            this.register.isError=true;
-            return;
-        }
-        if(this.register.password!==this.register.confirmPassword){
-            this.register.notice="密码与确认密码不一致";
-            this.register.isError=true;
-            return;
-        }
         this.register.isError=false;
         this.register.notice='';
+        request(
+            '/auth/register',
+            'POST',
+            {
+                username:this.register.username,
+                password:this.register.password
+            })
+        .then(data=>{
+            console.log(data)
+        })
       },
       //切换登录注册
       showRegister(){
@@ -106,12 +116,41 @@ export default{
 }
 </script>
 
-<style scoped>
-input{
-    display: block;
-}
+<style scoped lang="less">
 .error{
     color: red;
+}
+.title{
+    display: flex;
+    justify-content: center;
+    margin: 6px 0px;
+    font-weight: bolder;
+}
+.login,.register{
+    padding: 10px 20px;
+    border-top: 1px solid #eee;
+    input{
+        display: block;
+        height: 35px;
+        line-height: 35px;
+        padding: 0 6px;
+        border-radius: 4px;
+        border:1px solid #ccc;
+        outline: none;
+        font-size: 14px;
+        margin-top: 10px;
+    }
+}
+.button{
+    background-color: #2bb964;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    font-weight: bold;//加粗
+    color: #fff;
+    border-radius: 4px;
+    margin-top: 18px;
+    cursor: pointer;
 }
 </style>
 
