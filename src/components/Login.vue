@@ -75,7 +75,7 @@ export default{
             this.login.isError=false;
             this.login.notice='';
             Bus.$emit('userInfo',{username:this.login.username})
-            this.$router.push({path:'notebook'});
+            this.$router.push({path:'notebooks'});
         }).catch(error=>{
             this.login.notice=error.msg
             this.login.isError=true
