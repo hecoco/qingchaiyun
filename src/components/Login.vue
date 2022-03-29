@@ -22,7 +22,10 @@
 </template>
 
 <script>
-import request from '@/helpers/request'
+import Auth from '@/apis/auth'
+
+//判断是否登录
+Auth.getInfo().then(data=>console.log(data))
 
 export default{
   data(){
@@ -45,28 +48,27 @@ export default{
       }
   },
   methods:{
-      //验证信息
       onLogin(){
-        if(this.login.username.trim()==="" || this.login.password.trim() === ""){
+        if(this.loginusername.trim()==="" || this.loginpassword.trim() === ""){
             this.login.notice="用户名或密码为空";
             this.login.isError=true;
             return;
         }
-        if(!/^[\w\u4e00-\u9fa5]{3,15}$/.test(this.login.username)){
+        if(!/^[\w\u4e00-\u9fa5]{3,15}$/.test(this.loginusername)){
             this.login.notice="用户名3~15个字符，仅限于字母数字下划线中文";
             this.login.isError=true;
             return;
         }
-        if(!/^.{6,16}$/.test(this.login.password)){
+        if(!/^.{6,16}$/.test(this.loginpassword)){
             this.login.notice="密码长度为6~16个字符";
             this.login.isError=true;
             return;
         }
+        console.log(this.login.notice)
         this.login.isError=false;
         this.login.notice='';
-        request(
-            '/auth/login',
-            'POST',
+        //
+        Auth.login(
             {
                 username:this.login.username,
                 password:this.login.password
@@ -78,7 +80,6 @@ export default{
       },
       //验证信息
       onRegister(){
-        console.log(1)
         if(this.register.username.trim()==="" || this.register.password.trim() === ""){
               this.register.notice="用户名或密码为空";
               this.register.isError=true;
@@ -96,10 +97,8 @@ export default{
         }
         this.register.isError=false;
         this.register.notice='';
-        request(
-            '/auth/register',
-            'POST',
-            {
+        //
+        Auth.register({
                 username:this.register.username,
                 password:this.register.password
             })
