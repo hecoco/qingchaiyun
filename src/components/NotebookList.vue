@@ -14,7 +14,7 @@
               <span>{{list.title}}</span>
               <span class="action" @click.stop.prevent="onEdit(list)">编辑</span>
               <span class="action" @click.stop.prevent="onDelete(list)">删除</span>
-              <span class="date">时间</span>
+              <span class="date">{{list.createdAt}}</span>
             </div>
           </router-link>
         </div>
