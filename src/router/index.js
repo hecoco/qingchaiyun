@@ -14,33 +14,21 @@ const router = new Router({
       path: '/login',
       name: 'Login',
       component: Login,
-      meta: {
-        auth: false
-      }
     },
     {
       path: '/notebooks',
       name: 'NotebookList',
       component: NotebookList,
-      meta: {
-        auth: true
-      }
     },
     {
       path: '/note/:noteId',
       name: Note,
       component: Note,
-      meta: {
-        auth: true
-      }
     },
     {
       path: '/trash/:noteId',
       name: Trash,
       component: Trash,
-      meta: {
-        auth: true
-      }
     }
   ]
 })
