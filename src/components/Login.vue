@@ -9,14 +9,14 @@
             <input type="password" v-model="login.password" placeholder="密码" />
             <p v-bind:class="{error: login.isError}">{{login.notice}}</p>
             <div class="button" @click="onLogin">登录</div>
-            <div @click="showRegister">注册账号</div>
+            <div @click="showRegister" class="to">注册账号</div>
         </div>
         <div v-show="isShowRegister" class="register">
             <input type="text" v-model="register.username" placeholder="用户名" />
             <input type="password" v-model="register.password" placeholder="密码" />
             <p v-bind:class="{error: register.isError}">{{register.notice}}</p>
             <div class="button" @click="onRegister">注册</div>
-            <div @click="showRegister">登录账号</div>
+            <div @click="showRegister" class="to">登录账号</div>
         </div>
     </div>
 </template>
@@ -49,32 +49,34 @@ export default{
   },
   methods:{
       onLogin(){
-        if(this.loginusername.trim()==="" || this.loginpassword.trim() === ""){
+        if(this.login.username.trim()==="" || this.login.password.trim() === ""){
             this.login.notice="用户名或密码为空";
             this.login.isError=true;
             return;
         }
-        if(!/^[\w\u4e00-\u9fa5]{3,15}$/.test(this.loginusername)){
+        if(!/^[\w\u4e00-\u9fa5]{3,15}$/.test(this.login.username)){
             this.login.notice="用户名3~15个字符，仅限于字母数字下划线中文";
             this.login.isError=true;
             return;
         }
-        if(!/^.{6,16}$/.test(this.loginpassword)){
+        if(!/^.{6,16}$/.test(this.login.password)){
             this.login.notice="密码长度为6~16个字符";
             this.login.isError=true;
             return;
         }
-        console.log(this.login.notice)
-        this.login.isError=false;
-        this.login.notice='';
-        //
+        
         Auth.login(
             {
                 username:this.login.username,
                 password:this.login.password
             })
         .then(data=>{
-            console.log(data)
+            this.login.isError=false;
+            this.login.notice='';
+            this.$router.push({path:'notebook'});
+        }).catch(error=>{
+            this.login.notice=error.msg
+            this.login.isError=true
         })
         return;
       },
@@ -95,15 +97,18 @@ export default{
             this.register.isError=true;
             return;
         }
-        this.register.isError=false;
-        this.register.notice='';
-        //
+        
         Auth.register({
                 username:this.register.username,
                 password:this.register.password
             })
         .then(data=>{
-            console.log(data)
+            this.register.isError=false;
+            this.register.notice='';
+            this.showRegister();
+        }).catch(error=>{
+            this.register.notice=error.msg
+            this.register.isError=true
         })
       },
       //切换登录注册
@@ -116,6 +121,10 @@ export default{
 </script>
 
 <style scoped lang="less">
+.to{
+    margin-top: 8px;
+    cursor: pointer;
+}
 .error{
     color: red;
 }
@@ -141,7 +150,7 @@ export default{
     }
 }
 .button{
-    background-color: #2bb964;
+    background-color:#2080F0;
     height: 36px;
     line-height: 36px;
     text-align: center;
@@ -150,6 +159,9 @@ export default{
     border-radius: 4px;
     margin-top: 18px;
     cursor: pointer;
+}
+.register >.button{
+    background-color:#2bb964;
 }
 </style>
 

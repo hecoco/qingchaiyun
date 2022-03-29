@@ -1,4 +1,5 @@
 import axios from 'axios'
+import Auth from '@/apis/auth'
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 axios.defaults.baseURL = 'https://note-server.hunger-valley.com'
@@ -22,11 +23,9 @@ export default function request(url, type = 'GET', data = {}) {
             if (res.status === 200) {
                 resolve(res.data)
             } else {
-                console.log(1);
                 reject(res.data)
             }
         }).catch(err => {
-            console.log(2)
             reject({ mas: '网络异常' })
         })
     })

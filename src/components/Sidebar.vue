@@ -32,7 +32,10 @@ export default{
   methods:{
       //注销
       logout(){
-          Auth.logout().then(data=>console.log(data))
+        Auth.logout().then(
+            this.$router.push({path:'login'}),
+            data=>console.log(data)
+        )
       }
   }
 }
