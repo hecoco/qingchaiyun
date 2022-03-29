@@ -23,6 +23,7 @@
 
 <script>
 import Auth from '@/apis/auth'
+import Bus from '@/helpers/bus'
 
 //判断是否登录
 Auth.getInfo().then(data=>console.log(data))
@@ -73,6 +74,7 @@ export default{
         .then(data=>{
             this.login.isError=false;
             this.login.notice='';
+            Bus.$emit('userInfo',{username:this.login.username})
             this.$router.push({path:'notebook'});
         }).catch(error=>{
             this.login.notice=error.msg
