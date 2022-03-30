@@ -8,7 +8,7 @@
         <h3>笔记本列表</h3>
         <div class="book-list">
           <router-link v-for="list in booksList" 
-          :key="list.id" to="/note/1" class="notebook">
+          :key="list.id" :to="`/note?notebookId=${list.id}`" class="notebook">
             <div>
               <span class="iconfont icon-notebook"></span>
               <span>{{list.title}}</span>
@@ -27,7 +27,7 @@
 <script>
 import Auth from '@/apis/auth'
 import Notebooks from '@/apis/notebooks'
-// window.Notebooks = Notebooks
+window.Notebooks = Notebooks
 export default{
   data(){
       return {
@@ -53,7 +53,8 @@ export default{
           inputPattern: /^.{1,30}$/,
           inputErrorMessage: '标题格式不正确'
         }).then(({ value }) => {
-          Notebooks.addNotebooks({title:value}).then(res=>{
+          return Notebooks.addNotebooks({title:value})
+        }).then(res=>{
             this.booksList.unshift(res.data)
             this.$message({
               type: 'success',
@@ -61,34 +62,25 @@ export default{
               duration: 800
             }); 
           })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '取消输入'
-          });       
-        });
     },
     onEdit(notebook){
         this.$prompt('请输入标题', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
+          inputValue:notebook.title,
           inputPattern: /^.{1,30}$/,
           inputErrorMessage: '标题格式不正确'
         }).then(({ value }) => {
-          Notebooks.updateNotebooks(notebook.id,{title:value}).then(res=>{
+          return Notebooks.updateNotebooks(notebook.id,{title:value}).then(res=>{
           this.$message({
             type: 'success',
             message: '修改成功',
             duration: 800
           }); 
           notebook.title=value
+        })
           })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '取消输入'
-          });       
-        });
+          
     },
     onDelete(notebook){
       this.$confirm('此操作将永久删除该笔记, 是否继续?', '提示', {
@@ -96,22 +88,15 @@ export default{
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        Notebooks.deleteNotebooks(notebook.id).then(res=>{
-        console.log(res),
+        return Notebooks.deleteNotebooks(notebook.id)
+      }).then((res)=>{
         this.booksList.splice(this.booksList.indexOf(notebook),1)
         this.$message({
           type: 'success',
           message: '删除成功!',
           duration: 800
         });
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        });          
-      });
-      
+      })      
     }
   }
 }
