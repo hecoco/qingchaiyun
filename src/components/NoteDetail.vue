@@ -1,11 +1,12 @@
 <template>
     <div class="note">
-      <note-sidebar class="link" @update:notes="val => notes = val"></note-sidebar>
+      <note-sidebar class="link" @update:notes="val => notes = val" :curNote="curNote"></note-sidebar>
+      <!-- <note-sidebar class="link" :notes.sync="notes"></note-sidebar> -->
       <div class="xx">
         <div class="title">
           <span>创建日期: {{curNote.createAtFriendly}}</span>
           <span>更新日期: {{curNote.updatedAtFriendly}}</span>
-          <span>{{statusText}}</span>
+          <!-- <span>{{statusText}}</span> -->
           <span><i class="el-icon-delete"></i></span>
           <span><i class="el-icon-check"></i></span>
       </div>
@@ -13,9 +14,7 @@
         <el-input v-model="curNote.title" placeholder="请输入内容"></el-input>
       </div>
       <div>
-        <el-input type="textarea" :rows="35" 
-        placeholder="请输入内容" v-model="curNote.content">
-</el-input>
+        <el-input type="textarea" :rows="35" placeholder="请输入内容" v-model="curNote.content"></el-input>
       </div>
       </div>
     </div>
@@ -31,13 +30,7 @@ window.Notes = Notes
 export default{
   data(){
       return {
-        curNote:{
-          title:'我的笔记',
-          content:'内容',
-          createAtFriendly:'一天前',
-          updatedAtFriendly:'刚刚',
-          statusText:'未更新'
-        },
+        curNote:{},
         notes:[]
       }
   },
@@ -49,6 +42,10 @@ export default{
       }
     })
   },
+  beforeRouteUpdate(to,from,next){//???
+     this.curNote = this.notes.find(note=>note.id == to.query.noteId)
+    next()
+   }
 }
 </script>
 
