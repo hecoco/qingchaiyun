@@ -20,7 +20,7 @@ export default {
             })
         })
     },
-    addNotebooks({ notebookId }, { title, content = '' } = { title: '', content: '' }) {
+    addNotebooks({ notebookId }, { title = '', content = '' } = { title: '', content: '' }) {
         return request(URL.ADD.replace(':notebookId', notebookId), 'POST', { title, content })
     },
     updateNotebooks({ noteId }, { title, content }) {

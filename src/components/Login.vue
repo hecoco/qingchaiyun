@@ -2,21 +2,21 @@
     <div id="login">
         <div class="title">
             <span v-if="isShowLogin">登录</span>
-            <span v-if="isShowRegister">注册</span>
+            <span v-if="!isShowLogin">注册</span>
         </div>
         <div v-show="isShowLogin" class="login">
             <input type="text" v-model="login.username" placeholder="用户名"/>
             <input type="password" v-model="login.password" placeholder="密码" />
             <p v-bind:class="{error: login.isError}">{{login.notice}}</p>
             <div class="button" @click="onLogin">登录</div>
-            <div @click="showRegister" class="to">注册账号</div>
+            <div @click="isShowLogin=!isShowLogin" class="to">注册账号</div>
         </div>
-        <div v-show="isShowRegister" class="register">
+        <div v-show="!isShowLogin" class="register">
             <input type="text" v-model="register.username" placeholder="用户名" />
             <input type="password" v-model="register.password" placeholder="密码" />
             <p v-bind:class="{error: register.isError}">{{register.notice}}</p>
             <div class="button" @click="onRegister">注册</div>
-            <div @click="showRegister" class="to">登录账号</div>
+            <div @click="isShowLogin=!isShowLogin" class="to">登录账号</div>
         </div>
     </div>
 </template>
@@ -112,11 +112,6 @@ export default{
             this.register.notice=error.msg
             this.register.isError=true
         })
-      },
-      //切换登录注册
-      showRegister(){
-        this.isShowLogin=!this.isShowLogin;
-        this.isShowRegister=!this.isShowRegister;
       },
   }
 }

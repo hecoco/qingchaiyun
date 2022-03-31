@@ -4,6 +4,7 @@
             <span class="el-dropdown-link">
               {{curBook.title}}
             <i class="el-icon-arrow-down el-icon--right"></i>
+
             </span>
             <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item 
@@ -11,12 +12,12 @@
                 :command=link.id >{{link.title}}</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
+          <el-button @click="addNote"> 添加笔记 </el-button>
+
 
         <router-link v-for="lins in notes" :key="lins.id" :to="`/note?noteId=${lins.id}&notebookId=${curBook.id}`" class="zzzzz">
           <el-button> {{lins.title}} || {{lins.createdAt}} </el-button>
         </router-link>
-
-
 
         <!-- <el-table :data="notes" highlight-current-row @current-change="bookId()" style="width: 100%">
           <el-table-column prop="createdAt" label="更新时间"></el-table-column>
@@ -28,6 +29,7 @@
 <script>
 import Notes from '@/apis/notes'
 import Notebooks from '@/apis/notebooks'
+import bus from '@/helpers/bus'
 
 export default{
   data(){
@@ -48,6 +50,7 @@ export default{
     }).then(res=>{
       this.notes=res.data;
       this.$emit('update:notes',this.notes);//???
+      bus.$emit('update:notes',this.notes)
     })
   },
   props:['curNote'],
@@ -59,6 +62,11 @@ export default{
         this.notes = res.data
       })
     },
+    addNote(){
+      Notes.addNotebooks({notebookId:this.curBook.id}).then(res=>{
+        this.notes.unshift(res.data)
+      })
+    }
    },
    
 }
