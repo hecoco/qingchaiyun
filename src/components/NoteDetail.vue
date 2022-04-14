@@ -67,7 +67,7 @@ export default{
   },
   computed:{
     previewContent(){
-      return mk.render(this.curNote.content || '')
+      return mk.render(this.curNote.content || '')//获取笔记内容 md
     }
   },
   components:{NoteSidebar},

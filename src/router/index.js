@@ -33,16 +33,4 @@ const router = new Router({
   ]
 })
 
-// router.beforeEach(async (to, from, next) => {
-//   if (to.meta.auth) {
-//     Auth.getInfo().then(data => {
-//       data.isLogin
-//         ? next()
-//         : next({
-//           name: 'Login'
-//         })
-//     })
-//   }
-// })
-
 export default router;

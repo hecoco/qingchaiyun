@@ -9,7 +9,6 @@ const store = new Vuex.Store({
     },
     mutations: {
         getSlug(state) {
-            //  = state.username.charAt(0)
             Auth.getInfo().then(res => {
                 if (res.isLogin) {
                     state.username = res.data.username
