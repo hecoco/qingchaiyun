@@ -1,29 +1,28 @@
 <template>
+  <div class="qc-row">
     <div>
-        <el-dropdown @command="handleCommand">
-            <span class="el-dropdown-link">
-              {{curBook.title}}
-            <i class="el-icon-arrow-down el-icon--right"></i>
+      <el-dropdown @command="handleCommand">
+      <span class="el-dropdown-link">
+        {{ curBook.title }}
+        <i class="el-icon-arrow-down el-icon--right"></i>
+      </span>
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item v-for="link in notebooks" :key="link.id" :command=link.id>{{ link.title }}</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
 
-            </span>
-            <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item 
-                v-for="link in notebooks" :key="link.id" 
-                :command=link.id >{{link.title}}</el-dropdown-item>
-            </el-dropdown-menu>
-        </el-dropdown>
-          <el-button @click="addNote"> 添加笔记 </el-button>
+    <el-button @click="addNote" class="qc-add"> 添加笔记 </el-button>
+    </div>
+    <router-link v-for="lins in notes" :key="lins.id" :to="`/note?noteId=${lins.id}&notebookId=${curBook.id}`"
+      class="zzzzz">
+      <el-button> {{ lins.title }} || {{ lins.createdAt }} </el-button>
+    </router-link>
 
-
-        <router-link v-for="lins in notes" :key="lins.id" :to="`/note?noteId=${lins.id}&notebookId=${curBook.id}`" class="zzzzz">
-          <el-button> {{lins.title}} || {{lins.createdAt}} </el-button>
-        </router-link>
-
-        <!-- <el-table :data="notes" highlight-current-row @current-change="bookId()" style="width: 100%">
+    <!-- <el-table :data="notes" highlight-current-row @current-change="bookId()" style="width: 100%">
           <el-table-column prop="createdAt" label="更新时间"></el-table-column>
           <el-table-column prop="title" label="标题"></el-table-column>
         </el-table> -->
-    </div>
+  </div>
 </template>
 
 <script>
@@ -31,52 +30,62 @@ import Notes from '@/apis/notes'
 import Notebooks from '@/apis/notebooks'
 import bus from '@/helpers/bus'
 
-export default{
-  data(){
-      return {
-          notes:[],
-          notebooks:[],
-          curBook:{}
-      }
+export default {
+  data() {
+    return {
+      notes: [],
+      notebooks: [],
+      curBook: {}
+    }
   },
-  created(){
-    console.log(typeof this.$route.query.notebookId)
-    Notebooks.getAll().then(res=>{
+  created() {
+    Notebooks.getAll().then(res => {
       this.notebooks = res.data;
       // notebook.id返回的是number 
       // this.$route.query.notebookId 返回的是string
       this.curBook = this.notebooks.find(notebook => notebook.id == this.$route.query.notebookId) || this.notebooks[0] || {};
-      return Notes.getAll({notebookId:this.curBook.id})
-    }).then(res=>{
-      this.notes=res.data;
-      this.$emit('update:notes',this.notes);//???
-      bus.$emit('update:notes',this.notes)
+      return Notes.getAll({ notebookId: this.curBook.id })
+    }).then(res => {
+      this.notes = res.data;
+      this.$emit('update:notes', this.notes);//???
+      bus.$emit('update:notes', this.notes)
     })
   },
-  props:['curNote'],
+  props: ['curNote'],
   methods: {
     handleCommand(notebookId) {
       console.log(notebookId)
       this.curBook = this.notebooks.find(notebook => notebook.id == notebookId)
-      Notes.getAll({notebookId}).then(res =>{
+      Notes.getAll({ notebookId }).then(res => {
         this.notes = res.data
       })
     },
-    addNote(){
-      Notes.addNotebooks({notebookId:this.curBook.id}).then(res=>{
+    addNote() {
+      Notes.addNotebooks({ notebookId: this.curBook.id }).then(res => {
         this.notes.unshift(res.data)
       })
     }
-   },
+  },
 }
 </script>
 
 <style scoped lang="less">
 .el-dropdown-link {
-    cursor: pointer;
-    color: #409EFF;
-  }
-  .el-icon-arrow-down {
-    font-size: 12px;
-  }
+  cursor: pointer;
+  color: #409EFF;
+}
+
+.el-icon-arrow-down {
+  font-size: 12px;
+}
+.qc-row{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.qc-add{
+  background: #409EFF;
+  color: #ffffff;
+  width:8em;
+}
 </style>
