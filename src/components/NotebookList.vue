@@ -5,7 +5,7 @@
     </header>
     <main>
       <div class="layout">
-        <h3>笔记本列表</h3>
+        <h3 class="book-title">笔记本列表</h3>
         <div class="book-list">
           <router-link v-for="list in booksList"
           :key="list.id" :to="`/note?notebookId=${list.id}`" class="notebook">
@@ -110,6 +110,9 @@ export default{
 </script>
 
 <style lang="less" scoped>
+.book-title{
+font-size: 1.8em;
+}
 .btn{
   width: 90px;
   height: 34px;
@@ -127,13 +130,15 @@ main{
   margin-top: 12px;
   width: 80vh;
   .book-list{
-    padding-top: 24px;
+    padding-top: 12px;
     display: flex;
     flex-direction: column;
+    border-bottom:1px solid #e7e7e7;
     a{
       display: inline-block;
       padding: 24px 0;
-      border-bottom:1px solid #e7e7e7;
+      border-top:1px solid #e7e7e7;
+      padding-left: 6px;
       div{
         display: flex;
         flex-direction: row;
@@ -155,83 +160,4 @@ main{
     }
   }
 }
-
 </style>
-<!-- 
-<style scoped lang="less">
-#notebook-list{
-  border:1px solid red;
-  flex: 1;
-  // .btn{
-  //   font-size: 12px;
-  //   color: #666;
-  //   cursor: pointer;//光标
-  //   margin-left: 10px;
-  // }
-  .btn .iconfont{
-    font-size: 12px;
-  }
-  input {
-    width: 300px;
-    height: 30px;
-    line-height: 30px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    padding: 3px 5px;
-    outline: none;
-  }
-  header{
-    padding: 12px;
-    // border-bottom: 1px solid #ccc;
-  }
-  main{
-    padding: 30px 40px;
-  }
-  .layout{
-    max-width: 966px;
-    margin: 0 auto;
-  }
-  main h3{
-    font-size: 12px;
-    color: #000;
-  }
-  main .book-list{
-    margin-top: 10px;
-    font-size: 14px;
-    color: #666;
-    background-color: #fff;
-    border-radius: 4px;
-    font-weight: bold;
-    
-  }
-  main .book-list span{
-    font-size: 12px;
-    font-weight: bold;
-    color: #b3c0c8;
-  }
-  main .date,
-  main .action{
-    float: right;
-    margin-left: 10px;
-  }
-  main .iconfont{
-    color: #1687ea;
-    margin-right: 4px;
-  }
-  main .notebook{
-    display: block;
-    cursor: pointer;
-  }
-  main a.notebook:hover{
-    background-color: #f2f7fa;
-  }
-  main a.notebook div{
-    border-bottom: 1px solid #ebebeb;
-    padding: 12px 14px;
-  }
-  main .error-msg{
-    font-size: 12px;
-    color: red;
-  }
-}
-</style> -->

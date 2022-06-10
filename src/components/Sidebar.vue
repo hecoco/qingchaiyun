@@ -3,13 +3,13 @@
         <avatar></avatar>
         <div class="icons">
             <router-link to="/note" title="笔记">
-                <i class="iconfont icon-note"></i>
+                <el-button class="iconfont" type="text" icon="el-icon-notebook-2">文档</el-button>
             </router-link>
-            <router-link to="/notebooks" title="笔记本">
-                <i class="iconfont icon-notebook"></i>
+            <router-link to="/notebooks" title="文档">
+                <el-button class="iconfont" type="text" icon="el-icon-notebook-1">知识库</el-button>
             </router-link>
             <router-link to="/trash" title="回收站">
-                <i class="iconfont icon-trash"></i>
+                <el-button class="iconfont" type="text" icon="el-icon-delete">回收站</el-button>
             </router-link>
         </div>
         <div class="logout">
@@ -44,7 +44,7 @@ export default {
 
 <style scoped lang="less">
 #sidebar {
-    width: 56px;
+    width: 112px;
     position: relative;
     text-align: center;
     background: #2c333c;
