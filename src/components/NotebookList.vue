@@ -1,26 +1,33 @@
 <template>
   <div class="detail" id="notebook-list">
     <header>
-      <el-button href="#" class="btn" @click="onCreate"><i class="iconfont icon-plus"  />新建笔记本</el-button>
+      <el-button type="primary" class="btn" @click="onCreate" icon="el-icon-plus">新建笔记本</el-button>
     </header>
     <main>
       <div class="layout">
         <h3>笔记本列表</h3>
         <div class="book-list">
-          <router-link v-for="list in booksList" 
+          <router-link v-for="list in booksList"
           :key="list.id" :to="`/note?notebookId=${list.id}`" class="notebook">
             <div>
-              <span class="iconfont icon-notebook"></span>
-              <span>{{list.title}}</span>
-              <span class="action" @click.stop.prevent="onEdit(list)">编辑</span>
-              <span class="action" @click.stop.prevent="onDelete(list)">删除</span>
-              <span class="date">{{list.createdAt}}</span>
+              <div>
+                <span class="iconfont icon-notebook"></span>
+                <div class="txt">
+                  <span class="title">{{list.title}}</span>
+                  <span class="date">{{list.createdAt}}</span>
+                </div>
+              </div>
+              <div class="function">
+                <!-- <span class="action" @click.stop.prevent="onEdit(list)">编辑</span> -->
+                <!-- <span class="action" @click.stop.prevent="onDelete(list)">删除</span> -->
+                <el-button @click.stop.prevent="onEdit(list)" icon="el-icon-edit" circle></el-button>
+                <el-button @click.stop.prevent="onDelete(list)" icon="el-icon-delete" circle></el-button>
+              </div>
             </div>
           </router-link>
         </div>
       </div>
     </main>
-
   </div>
 </template>
 
@@ -102,16 +109,65 @@ export default{
 }
 </script>
 
+<style lang="less" scoped>
+.btn{
+  width: 90px;
+  height: 34px;
+}
+#notebook-list{
+  margin: 12px auto auto auto;
+}
+.function{
+  margin:auto 24px auto auto;
+  span{
+    padding: 0 20px;
+  }
+}
+main{
+  margin-top: 12px;
+  width: 80vh;
+  .book-list{
+    padding-top: 24px;
+    display: flex;
+    flex-direction: column;
+    a{
+      display: inline-block;
+      padding: 24px 0;
+      border-bottom:1px solid #e7e7e7;
+      div{
+        display: flex;
+        flex-direction: row;
+        .txt{
+        display: flex;
+        flex-direction: column;
+        }
+        .iconfont{
+          margin: auto 24px auto auto;
+        }
+        .title{
+          font-size: 1.2em;
+        }
+        .date{
+          font-size: 0.8em;
+          margin-top: 0.2em;
+        }
+      }
+    }
+  }
+}
+
+</style>
+<!-- 
 <style scoped lang="less">
 #notebook-list{
   border:1px solid red;
   flex: 1;
-  .btn{
-    font-size: 12px;
-    color: #666;
-    cursor: pointer;//光标
-    margin-left: 10px;
-  }
+  // .btn{
+  //   font-size: 12px;
+  //   color: #666;
+  //   cursor: pointer;//光标
+  //   margin-left: 10px;
+  // }
   .btn .iconfont{
     font-size: 12px;
   }
@@ -126,7 +182,7 @@ export default{
   }
   header{
     padding: 12px;
-    border-bottom: 1px solid #ccc;
+    // border-bottom: 1px solid #ccc;
   }
   main{
     padding: 30px 40px;
@@ -178,9 +234,4 @@ export default{
     color: red;
   }
 }
-
-
-
-
-
-</style>
+</style> -->

@@ -123,14 +123,7 @@ export default {
     margin: 20vh auto auto auto;
     border:.5px solid #eff0f0;
     border-radius:8px;
-    box-shadow:
-  0px 0px 2.2px rgba(0, 0, 0, 0.12),
-  0px 0px 5.3px rgba(0, 0, 0, 0.136),
-  0px 0px 10px rgba(0, 0, 0, 0.137),
-  0px 0px 17.9px rgba(0, 0, 0, 0.129),
-  0px 0px 33.4px rgba(0, 0, 0, 0.116),
-  0px 0px 80px rgba(0, 0, 0, 0.1)
-;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.3);
 }
 
 .to {
