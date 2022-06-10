@@ -40,7 +40,8 @@ span{
     text-align: center;
     line-height: 60px;
     border-radius: 50%;
-    background: #f2b81c;
+    /* background: #f2b81c; */
+    background: #67c23a;
     color: #fff;
     text-shadow: 1px 0 1px #795c19;
     font-weight: bold;
