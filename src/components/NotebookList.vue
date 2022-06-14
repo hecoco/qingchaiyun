@@ -1,25 +1,22 @@
 <template>
   <div class="detail" id="notebook-list">
-    <header>
-      <el-button type="primary" class="btn" @click="onCreate" icon="el-icon-plus">新建笔记本</el-button>
-    </header>
     <main>
       <div class="layout">
-        <h3 class="book-title">笔记本列表</h3>
+        <div class="book-title">
+          <h3>笔记本列表</h3>
+          <el-button type="primary" class="add"  @click="onCreate" icon="el-icon-plus">新建笔记本</el-button>
+        </div>
         <div class="book-list">
           <router-link v-for="list in booksList"
           :key="list.id" :to="`/note?notebookId=${list.id}`" class="notebook">
-            <div>
+            <div class="yin">
               <div>
-                <span class="iconfont icon-notebook"></span>
                 <div class="txt">
                   <span class="title">{{list.title}}</span>
                   <span class="date">{{list.createdAt}}</span>
                 </div>
               </div>
               <div class="function">
-                <!-- <span class="action" @click.stop.prevent="onEdit(list)">编辑</span> -->
-                <!-- <span class="action" @click.stop.prevent="onDelete(list)">删除</span> -->
                 <el-button @click.stop.prevent="onEdit(list)" icon="el-icon-edit" circle></el-button>
                 <el-button @click.stop.prevent="onDelete(list)" icon="el-icon-delete" circle></el-button>
               </div>
@@ -52,6 +49,7 @@ export default{
       this.booksList = res.data
     })
   },
+  
   methods:{
     onCreate(){
       this.$prompt('请输入标题', {
@@ -110,12 +108,19 @@ export default{
 </script>
 
 <style lang="less" scoped>
-.book-title{
-font-size: 1.8em;
+.notebook:hover{
+  background: #FAFAFA;
 }
-.btn{
-  width: 90px;
-  height: 34px;
+.book-title{
+  font-size: 1.8em;
+  display: flex;
+  justify-content:space-between;
+  h3{
+    display: inline-block;
+  }
+  .add{
+    margin-right: 12px;
+  }
 }
 #notebook-list{
   margin: 12px auto auto auto;
@@ -134,9 +139,6 @@ main{
     display: flex;
     flex-direction: column;
     border-bottom:1px solid #e7e7e7;
-    // div:hover{
-    //   background-color: #F5F7FA;
-    // }
     a{
       display: inline-block;
       padding: 24px 0;
@@ -158,6 +160,7 @@ main{
         .date{
           font-size: 0.8em;
           margin-top: 0.2em;
+          color:#86909c;
         }
       }
     }

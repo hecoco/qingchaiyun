@@ -1,33 +1,32 @@
 <template>
-  <div class="note">
+  <div class="note" >
     <note-sidebar class="link" @update:notes="val => notes = val" :curNote="curNote"></note-sidebar>
     <div class="qc-editor">
-      <div v-show="!curNote.id">
+      <div v-if="!curNote.id">
         <el-empty description="请选择笔记"></el-empty>
       </div>
-      <!-- calc -->
-      <div v-show="curNote.id">
+      <div v-else-if="curNote.id" class="editor">
         <div class="status">
-          <div><span>创建日期: {{ curNote.createAtFriendly }}</span>
-            <span>更新日期: {{ curNote.updatedAtFriendly }}</span>
+          <div>
+            <!-- <span>创建日期: {{ curNote.createAtFriendly }}</span>
+            <span>更新日期: {{ curNote.updatedAtFriendly }}</span> -->
+            
+            <!-- <div >{{curNote.updatedAt}}</div> -->
           </div>
           <div>
-            <!-- <span><i class="el-icon-rank" @click="isShowPreview = !isShowPreview">预览</i></span> -->
-            <!-- <span><i class="el-icon-delete" @click="deleteNote"></i></span> -->
             <span style="color:#606266;font-size: 14px;"> {{ statusText }} </span>
-            <el-button size="mini" icon="el-icon-rank" round>预览</el-button>
-            <el-button size="mini" icon="el-icon-delete" round>删除</el-button>
-
+            <el-button size="mini" icon="el-icon-rank" @click="isShowPreview = !isShowPreview" round>预览</el-button>
+            <el-button size="mini" icon="el-icon-delete" @click="deleteNote" round>删除</el-button>
           </div>
         </div>
+        <el-divider class="divider"></el-divider>
         <div class="title">
-          <el-input v-model="curNote.title" @input="updateNode" @keyup="statusText = '正在输入'" placeholder="请输入标题">
-          </el-input>
+          <input class="input-title" @onkeyup.ctrl="onKeyDown(e)" v-model="curNote.title" @input="updateNode" @keyup="statusText = '正在输入'" placeholder="请输入文章标题" />
         </div>
         <div class="textarea">
           <!-- element el-input组件 绑定keydown失效  使用.native即可 也可使用keyup -->
-          <el-input v-show="!isShowPreview" type="textarea" :rows="35" @input="updateNode"
-            @keydown.native="statusText = '正在输入'" placeholder="请输入内容" v-model="curNote.content"></el-input>
+          <textarea v-show="!isShowPreview" class="input-textarea" type="textarea" :rows="35" @input="updateNode"
+            @keydown.native="statusText = '正在输入'" placeholder="请输入内容" v-model="curNote.content" ></textarea>
           <div v-show="isShowPreview" v-html="previewContent">
           </div>
         </div>
@@ -57,6 +56,7 @@ export default {
       isShowPreview: false
     }
   },
+  
   methods: {
     updateNode: _.debounce(function () {//????
       Notes.updateNotebooks({ noteId: this.curNote.id }, { title: this.curNote.title, content: this.curNote.content }).then(res => {
@@ -69,12 +69,17 @@ export default {
         this.$message.success('删除成功，放入回收站')
         this.$router.replace({ path: '/note' })//???
       })
+    },
+    onKeyDown(e){
+      console.log(1)
+      return ''
     }
   },
   computed: {
     previewContent() {
       return mk.render(this.curNote.content || '')//获取笔记内容 md
-    }
+    },
+    
   },
   components: { NoteSidebar },
   created() {
@@ -95,28 +100,43 @@ export default {
 </script>
 
 <style scoped lang="less">
-.title{
-  margin-bottom: 12px;
-  margin-top: 6px;
-}
-.note {
+.note{
   display: flex;
   flex-direction: row;
-  .qc-editor {
+  align-items:stretch;
+  flex:1;
+  .qc-editor{
+    flex:1;
     display: flex;
     flex-direction: column;
-    min-width: 80vh;
-
-    .status {
-      display: inline-block;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items:baseline;
-      span {
-        margin: 0px 6px 0px 0px;
-      }
+    .editor{  
+      width: 95%;
     }
   }
+}
+.title{
+  margin-bottom: 24px;
+  .input-title{
+  border: none;
+  outline:none;
+  font-size: 1.6em;
+  margin-left: .5em;
+}
+}
+.input-textarea{
+  border: none;
+  outline:none;
+  width: 100%;
+  height: 100%;
+  font-size: 1.3em;
+  margin-left: 2em;
+}
+.divider{
+  margin: 3px 0;
+}
+.status{
+  display: flex;
+  justify-content: space-between;
+  margin: 6px 0;
 }
 </style>

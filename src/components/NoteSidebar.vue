@@ -1,6 +1,6 @@
 <template>
   <div class="qc-row">
-    <div>
+    <div class="top">
       <el-dropdown @command="handleCommand">
         <span class="el-dropdown-link">
           {{ curBook.title }}
@@ -10,15 +10,16 @@
           <el-dropdown-item v-for="link in notebooks" :command=link.id :key="link.id">{{ link.title }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-    <el-button @click="addNote"> 添加笔记 </el-button>
+      <el-button @click="addNote"> 添加笔记 </el-button>
     </div>
-    <router-link v-for="lins in notes" :key="lins.id" :to="`/note?noteId=${lins.id}&notebookId=${curBook.id}`">
-      <div>
-        <span>{{ lins.title }}</span>
-        ||
-        <span>{{ lins.createdAt }}</span>
-      </div>
+    <el-divider class="el-divider"></el-divider>
+    <div class="title">
+      <router-link class="qc-title" v-for="lins in notes" :key="lins.id" :to="`/note?noteId=${lins.id}&notebookId=${curBook.id}`">
+        <div>
+          <span>{{ lins.title ||  '无标题'  }}</span>
+        </div>
     </router-link>
+    </div>
   </div>
 </template>
 
@@ -67,6 +68,30 @@ export default {
 </script>
 
 <style scoped lang="less">
+
+.qc-row{
+  display: flex;
+  flex-direction: column;
+  width: 290px;
+  border-right:1px solid #e7e7e7;
+  .top{
+    margin: 0 auto;
+    margin-top: 12px;
+  }
+  .title{
+    div{
+    padding: 12px;
+    }
+    div:hover{
+      background: #e7e7e7;
+    }
+  }
+}
+.el-divider{
+  margin-top: 6px;
+  margin-bottom: 0px;
+}
+
 .el-dropdown-link {
   cursor: pointer;
   color: #409EFF;
@@ -75,10 +100,4 @@ export default {
 .el-icon-arrow-down {
   font-size: 12px;
 }
-.qc-row{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 </style>

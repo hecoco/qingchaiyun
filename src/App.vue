@@ -36,14 +36,4 @@ a{
   text-decoration: none;
   color: #444;
 }
-.btn{
-  color: #666;
-  font-size: 12px;
-  padding: 2px 4px;
-  background-color: #fff;
-  box-shadow: 0px 0px 2px 0px #ccc;
-  border: none;
-  cursor: pointer;
-  display: inline-block;
-}
 </style>

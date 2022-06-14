@@ -13,7 +13,7 @@
             </router-link>
         </div>
         <div class="logout">
-            <i class="iconfont icon-logout" @click="logout"></i>
+            <el-button class="iconfont" type="text" @click="logout" style="color:#66b1ff">注销</el-button>
         </div>
     </div>
 </template>
@@ -23,11 +23,6 @@ import Avatar from '@/components/Avatar'
 import Auth from '@/apis/auth'
 
 export default {
-    data() {
-        return {
-
-        }
-    },
     components: { Avatar },
     methods: {
         //注销

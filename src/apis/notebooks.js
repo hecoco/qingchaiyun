@@ -14,6 +14,9 @@ export default {
                 res.data = res.data.sort((notebook1, notebook2) => {
                     notebook1.createdAt > notebook2.createdAt
                 })
+                res.data.map(list=>{
+                    list.createdAt = list.createdAt.substring(0,10)+" "+(Number(list.createdAt.substring(11,13))+8)+list.createdAt.substring(13,16)
+                })
                 resolve(res)
             }).catch(err => {
                 reject(err)
